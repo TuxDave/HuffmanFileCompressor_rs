@@ -1,5 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
+use std::fs::File;
+use std::io::{BufWriter, Write};
 
 pub mod utils;
 
@@ -69,6 +71,20 @@ impl HuffmanTreeNode {
             Ok(_) => { Ok(map) }
             Err(s) => { Err(s) }
         }
+    }
+
+    /**
+    * writes the prelude inside the file.
+    * PRELUDE is composed of all the needed information to decompress the result file.
+    * it comprends the huffman tree ecc
+    * */
+    fn write_prelude(w: &mut BufWriter<File>, map: HashMap<u8, Vec<bool>>) -> Result<(), String> {
+        if w.write(&[1]).unwrap_or(0) != 1 {
+            return Err(String::from("Unable to write into the file"));
+        }
+        //TODO: Capire come fare questo più velocemente senza usare sempre un if e senza unwrap
+        
+        return null;
     }
 }
 
