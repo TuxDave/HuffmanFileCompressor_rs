@@ -14,3 +14,14 @@ pub fn count_occurrence(f: &mut File) -> HashMap<u8, u32> {
 }
 
 //TODO: start writing Huffman Module
+
+pub fn from_byte_to_bool(mut b: u8) -> [bool; 8] {
+    let mut bools: [bool; 8] = [false; 8];
+    for i in (0 ..= 7).rev() {
+        if b % 2 == 1 {
+            bools[i] = true;
+        }
+        b = b >> 1;
+    }
+    bools
+}

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::fs::File;
 use huffman_file_compressor_rs::huffman::utils::count_occurrence;
+use huffman_file_compressor_rs::huffman::utils::from_byte_to_bool;
 
 #[test]
 fn t_count_occurrence() {
@@ -266,4 +267,11 @@ fn t_count_occurrence() {
     count.iter().for_each(|occurrence | {
         assert_eq!(count[occurrence.0], compare[occurrence.0]);
     })
+}
+
+#[test]
+fn t_from_byte_to_bools() {
+    assert_eq!(from_byte_to_bool(1), [false, false, false, false, false, false, false, true]);
+    assert_eq!(from_byte_to_bool(0), [false, false, false, false, false, false, false, false]);
+    assert_eq!(from_byte_to_bool(129), [true, false, false, false, false, false, false, true]);
 }
