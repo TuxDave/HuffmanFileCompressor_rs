@@ -5,6 +5,14 @@ use std::io::{BufWriter, Write};
 
 pub mod utils;
 
+macro_rules! write {
+    ($writer:expr, $buff:expr) => {
+        if $writer.write($buff).unwrap_or(0) != 1 {
+            return Err(String::from("Unable to write into the file"));
+        }
+    };
+}
+
 #[derive(PartialEq, Eq)]
 struct HuffmanTreeNode {
     frequency: u32,
@@ -79,12 +87,9 @@ impl HuffmanTreeNode {
     * it comprends the huffman tree ecc
     * */
     fn write_prelude(w: &mut BufWriter<File>, map: HashMap<u8, Vec<bool>>) -> Result<(), String> {
-        if w.write(&[1]).unwrap_or(0) != 1 {
-            return Err(String::from("Unable to write into the file"));
-        }
-        //TODO: Capire come fare questo più velocemente senza usare sempre un if e senza unwrap
-        
-        return null;
+        write!(w, &[1]);
+        //TODO: continua qui
+        Ok(())
     }
 }
 
