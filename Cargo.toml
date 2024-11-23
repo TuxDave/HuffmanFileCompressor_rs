@@ -2,5 +2,3 @@
 name = "huffman_file_compressor_rs"
 version = "0.1.0"
 edition = "2021"
-
-[dependencies]

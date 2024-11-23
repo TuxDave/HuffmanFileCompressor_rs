@@ -88,7 +88,26 @@ impl HuffmanTreeNode {
     * */
     fn write_prelude(w: &mut BufWriter<File>, map: HashMap<u8, Vec<bool>>) -> Result<(), String> {
         write!(w, &[1]);
-        //TODO: continua qui
+        
+        let mut symbols: [u8; 4] = [0;4];
+        let symbolLength = symbols.len();
+        for i in 0 .. symbols.len() {
+           symbols[symbolLength - i] = (map.len() >> i * 8) as u8
+        }
+        write!(w, &symbols);
+
+        for entry in map {
+            write!(w, &[entry.0, entry.1.len() as u8]);
+            
+            let bytes = (0..entry.1.len()).map(|_| 0).collect::<Vec<u8>>();
+            let content = entry.1.iter()
+                .rev()
+                .zip(0..entry.1.len())
+                .map(|(it, i)|
+                if *it {1} else {0} * 2_u32.pow(i as u32)
+            ).sum::<u32>() << (bytes.len() - entry.1.len().div_ceil(8));
+            //TODO: andare avanti qui, che bordello RS
+        }
         Ok(())
     }
 }
@@ -118,8 +137,8 @@ fn huffmanize(m: HashMap<u8, u32>) -> Option<HuffmanTreeNode> {
         pq.push(HuffmanTreeNode::new_root(
             n1.frequency + n2.frequency,
             n1,
-            n2
+            n2,
         ));
     }
-    return pq.pop()
+    return pq.pop();
 }
