@@ -99,14 +99,19 @@ impl HuffmanTreeNode {
         for entry in map {
             write!(w, &[entry.0, entry.1.len() as u8]);
             
-            let bytes = (0..entry.1.len()).map(|_| 0).collect::<Vec<u8>>();
+            let mut bytes = (0..entry.1.len()).map(|_| 0).collect::<Vec<u8>>();
             let content = entry.1.iter()
                 .rev()
                 .zip(0..entry.1.len())
                 .map(|(it, i)|
                 if *it {1} else {0} * 2_u32.pow(i as u32)
             ).sum::<u32>() << (bytes.len() - entry.1.len().div_ceil(8));
-            //TODO: andare avanti qui, che bordello RS
+            
+            for i in 0..bytes.len() {
+                let len = bytes.len();
+                bytes[len - 1 -i] = (content >> (i * 8)) as u8;
+            }
+            write!(w, &bytes);
         }
         Ok(())
     }
